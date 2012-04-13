@@ -1,0 +1,43 @@
+# HOME
+homepage:
+    pattern:  /
+    defaults: { _controller: HotDesignScThemeBundle:Theme:index, name: home }
+
+static_page:
+    pattern:  /page/{name}
+    defaults: { _controller: HotDesignScThemeBundle:Theme:index }
+
+# PRODUCTS
+
+products_homepage:
+    pattern: /products.{_format}
+    defaults: { _controller: HotDesignScThemeBundle:Product:index, _format: html, slug: '' }
+    requirements:
+        _format:  html|xml|json
+        
+products_listing:
+    pattern: /products/{slug}.{_format}
+    defaults: { _controller: HotDesignScThemeBundle:Product:index, _format: html }
+    requirements:
+        _format:  html|xml|json
+
+product_profile:
+    pattern: /products/{category_slug}/{slug}.html
+    defaults: { _controller: HotDesignScThemeBundle:Product:profile }
+
+#CONTACT
+product_contact:
+    pattern: /contact/producto/{id}/
+    defaults: { _controller: HotDesignScThemeBundle:Contact:product }
+    requirements:
+        id:  \d+
+    
+contact:
+    pattern: /contact/
+    defaults: { _controller: HotDesignScThemeBundle:Contact:index }
+    
+contact_submit:
+    pattern: /contact/send/
+    defaults: { _controller: HotDesignScThemeBundle:Contact:submitContact }
+    requirements:
+        _method:  POST

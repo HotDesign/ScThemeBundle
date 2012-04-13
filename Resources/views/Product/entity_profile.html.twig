@@ -1,0 +1,26 @@
+{% extends 'HotDesignScThemeBundle:Product:index.html.twig' %}
+
+{% block product_content %}
+
+	  <h1>{{ entity.title }}</h1>
+        {% if pics %}
+      	  <legend>Imágenes</legend>
+      	  {% for pic in pics %}
+      		 <a href="{{ asset(pic.getPath) }}" rel="prettyPhoto[galeria]" title="{{ pic.title }}" >
+            		<img src="{{ (pic.getPath) | apply_filter('my_thumb') }}" alt="{{ pic.title }}" />
+               	</a>
+             {% endfor %}
+       {% endif %}
+       <legend>Información</legend>
+       <ul>
+       	<li>Descripción: {{ entity.description }}</li>
+       	<li>Precio: {{ entity.getFormattedPrice }}</li>
+       	<li>Tags: {{ entity.tags }}</li>
+       </ul>
+	    {% for ext in extends %}
+                  {% include ext.bundle_name ~ ':' ~ ext.class ~ ':show_frontend.html.twig' with {'entity': ext.object } %}
+          {% endfor %}
+
+
+          {% render 'HotDesignScThemeBundle:Contact:renderProductContactForm' with {'id': entity.id } %}
+{% endblock %}

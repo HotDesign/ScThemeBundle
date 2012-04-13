@@ -1,0 +1,28 @@
+{% extends theme_layout_html %}
+
+{% block content %}
+    
+    <h1>Donde estamos</h1>
+
+    <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla mauris vitae eros lobortis a viverra tellus dictum. In ante mauris, aliquet id sollicitudin ut, porta id urna. Donec sodales tincidunt eros, ac auctor massa rhoncus vitae. Sed egestas tincidunt orci, sed eleifend tellus aliquam ullamcorper. Nullam in neque ut lacus volutpat bibendum sed at dui. Donec ac odio nec urna congue ultricies. Cras scelerisque venenatis dolor, sed semper diam tristique a.
+    </p>
+    
+    
+    {% include 'SimpleCatalogBundle:Layouts:flashes_messages.html.twig'%}
+    <form class="form-horizontal" action={{ path('contact_submit') }} method="post" {{ form_enctype(form) }}>
+        <fieldset>
+          <legend>Contactanos</legend>
+          <div class="control-group">
+            {{ form_widget(form) }}
+          </div>
+                  
+          
+          <div class="form-actions">
+            <button type="reset" class="btn">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </fieldset>
+      </form>
+
+{% endblock %}

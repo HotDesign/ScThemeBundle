@@ -1,0 +1,66 @@
+{% extends 'HotDesignScThemeBundle:Product:index.html.twig' %}
+
+{% set category_slug = '' %}
+{% if category is not empty %}
+    {% set category_slug =  category.slug %}
+{% endif %}
+
+{% block product_content %}
+<div class="itemListingWrapper">
+
+<div class="itemListingContainer">
+{% for entity in entities %}
+<div class="row show-grid itemListingItem">
+    
+{% if category is empty %}
+    {% set category_slug =  entity.category.slug %}
+{% endif %}
+        
+    {% set entity_url = path('product_profile', {'category_slug': category_slug ,'slug': entity.slug }) %}
+    
+    <div class="span2">
+            <a href="{{ entity_url }}" class="thumbnail">
+
+                 <img src="{{ entity.get_default_pic.getPath | apply_filter('my_thumb') }}" alt="{{ entity.get_default_pic.getTitle }}" />
+               
+            </a>
+    </div>    
+    <div class="span8">
+
+        <div class="caption">
+
+            <h3>
+                <a href="{{ entity_url }}"> {{entity.title}}</a>
+                <small>{{ entity.formattedPrice }}</small>
+            </h3>
+
+            {% if entity.description is not empty %}
+            <p>
+                {{ entity.description | striptags |truncate(240) }}
+            </p>
+            {% endif %}
+            
+            <blockquote>{{ entity.category.title }}</blockquote>
+        </div>
+        
+    </div>
+           
+</div>
+{% else %}
+<div class="alert alert-block">
+  <h4 class="alert-heading">Disculpe</h4>
+  No hay elementos a mostrar en esta sección.
+</div>
+{% endfor%}
+</div>
+            
+{% if num_pages > 1 %}
+<div class="row itemListingPaginator">
+    <div class="span8">
+        {{ pagerfanta(paginator, 'twitter_bootstrap_translated', {'proximity': 2}) }}
+    </div>
+</div>
+{% endif %}
+        
+</div>
+{% endblock %}
