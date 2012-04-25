@@ -148,57 +148,26 @@ $json = $serializer->serialize($entity, 'json');
 
     public function profileAction($category_slug, $slug) {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository('SimpleCatalogBundle:BaseEntity');
-        $entity = $repo->findOneBySlug($slug);
+        $ItemService = $this->get('item.service');
+
+        $entity = $ItemService->getFullItem($slug);
 
         if (empty($entity)) {
             throw $this->createNotFoundException('Unable to find Entity entity.');
         }
 
-        $current_category = $em->getRepository('SimpleCatalogBundle:Category')->findOneBySlug($category_slug);
+        $category = $entity->getCategory();
 
-        if (empty($current_category)) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
-        }
-
-        $category_level = $current_category->getLvl();
-
-        //Look entities wich extends
-
-
-        /* ATENCION: COPIADO DESDE BaseEntityController.php refactorizar en algun futuro */
-        /* ATENCION: COPIADO DESDE BaseEntityController.php refactorizar en algun futuro */
-        //Obtenemos las Pics.
-        $pics = $em->getRepository('SimpleCatalogBundle:Pic')->findBy(array('entity' => $entity->getId()));
-
-        //Obtenemos el array de las clases que extiende
-        $class_extends = ItemTypes::getClassExtends($entity->getCategory()->getType());
-
-        $extends = array();
-
-        //Recuperamos toda la información de las clases a las cuales extiende.
-        foreach ($class_extends as $extend) {
-            $e = array();
-            $e['class'] = $extend['class'];
-            $e['bundle_name'] = $extend['bundle_name'];
-            $e['object'] = $em->getRepository(
-                            $extend['bundle_name'] . ':' . $extend['class'])
-                    ->findOneBy(array('base_entity' => $entity->getId())
-            );
-            $extends[$e['class']] = $e;
-        }
-        /* ATENCION: COPIADO DESDE BaseEntityController.php refactorizar en algun futuro */
-        /* ATENCION: COPIADO DESDE BaseEntityController.php refactorizar en algun futuro */
-        /* ATENCION: COPIADO DESDE BaseEntityController.php refactorizar en algun futuro */
+        $category_level = $category->getLvl();
 
         $to_render = array(
             'category_level' => $category_level,
-            'category' => $current_category,
-            'entity' => $entity,
-            'pics' => $pics,
-            'extends' => $extends
+            'category' => $category,
+            'entity' => $entity['BaseEntity'],
+            'pics' => $entity['pics'],
+            'extends' => $entity['extends']
         );
-
+        
         return $this->render('HotDesignScThemeBundle:Product:entity_profile.html.twig', $to_render);
     }
 
