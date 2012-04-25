@@ -155,8 +155,8 @@ $json = $serializer->serialize($entity, 'json');
         if (empty($entity)) {
             throw $this->createNotFoundException('Unable to find Entity entity.');
         }
-
-        $category = $entity->getCategory();
+    
+        $category = $entity['BaseEntity']->getCategory();
 
         $category_level = $category->getLvl();
 
@@ -167,7 +167,7 @@ $json = $serializer->serialize($entity, 'json');
             'pics' => $entity['pics'],
             'extends' => $entity['extends']
         );
-        
+
         return $this->render('HotDesignScThemeBundle:Product:entity_profile.html.twig', $to_render);
     }
 
