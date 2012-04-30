@@ -69,54 +69,55 @@ class ProductController extends Controller {
         unset($service_output);
 
         $output_tmp_entities = array();
-//         switch ($_format) {
-//             case 'xml':
-//             case 'json':
-//                 if ($entities) {
-//                     // view this in future
+         switch ($_format) {
+             case 'xml':
+             case 'json':
+                 if ($entities) {
+                     // view this in future
 //                     /**
 //                      *$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new 
 // JsonEncoder()));
 // $json = $serializer->serialize($entity, 'json'); 
 //                      */
-//                     foreach ($entities as $entity) {
-//                         $tmp_category = $entity->getCategory();
+                     foreach ($entities as $ext_entity) {
+                         $entity = $ext_entity['BaseEntity'];
+                         $tmp_category = $entity->getCategory();
+                         
+                         $tmp_entity = array(
+                             'title' => $entity->getTitle(),
+                             'id' => $entity->getid(),
+                             'url' => $this->get('router')->generate('product_profile', array('slug' => $entity->getSlug(), 'category_slug' => $tmp_category->getSlug()), TRUE),
+                             'description' => $entity->getDescription(),
+                             'category' => $tmp_category->getTitle(),
+                             'category_url' => $this->get('router')->generate('products_listing', array('slug' => $tmp_category->getSlug()), TRUE),
+                             'created_at' => $entity->getCreatedAt(),
+                             'updated_at' => $entity->getUpdatedAt(),
+                         );
 
-//                         $tmp_entity = array(
-//                             'title' => $entity->getTitle(),
-//                             'id' => $entity->getid(),
-//                             'url' => $this->get('router')->generate('product_profile', array('slug' => $entity->getSlug(), 'category_slug' => $tmp_category->getSlug()), TRUE),
-//                             'description' => $entity->getDescription(),
-//                             'category' => $tmp_category->getTitle(),
-//                             'category_url' => $this->get('router')->generate('products_listing', array('slug' => $tmp_category->getSlug()), TRUE),
-//                             'created_at' => $entity->getCreatedAt(),
-//                             'updated_at' => $entity->getUpdatedAt(),
-//                         );
+                         $tmp_entity['pics'] = array();
 
-//                         $tmp_entity['pics'] = array();
-
-//                         $tmp_pictures = $entity->getPics();
-//                         if (count($tmp_pictures) > 0) {
-//                             $default_pic = $entity->get_default_pic();
+                         $tmp_pictures = $entity->getPics();
+                         if (count($tmp_pictures) > 0) {
+                             $default_pic = $entity->get_default_pic();
                              
-//                             $request = $this->get('request');
-//                             $web_url = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath().'/';
-//                             $tmp_entity['pics'][0] = $web_url.$default_pic->getWebPath();
+                             $request = $this->get('request');
+                             $web_url = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath().'/';
+                             $tmp_entity['pics'][0] = $web_url.$default_pic->getWebPath();
 
-//                             foreach ($tmp_pictures as $pic) {
-//                                 if ($pic->getId() != $default_pic->getId()) {
-//                                     $tmp_entity['pics'][$pic->getId()] = $web_url.$pic->getWebPath();
-//                                 }
-//                             }
-//                         }
+                             foreach ($tmp_pictures as $pic) {
+                                 if ($pic->getId() != $default_pic->getId()) {
+                                     $tmp_entity['pics'][$pic->getId()] = $web_url.$pic->getWebPath();
+                                 }
+                             }
+                         }
 
-//                         $output_tmp_entities[$entity->getId()] = $tmp_entity;
-//                     }
-//                 }
+                         $output_tmp_entities[$entity->getId()] = $tmp_entity;
+                     }
+                 }
                 
-//                 $entities = $output_tmp_entities;
-//                 break;
-//         }
+                 $entities = $output_tmp_entities;
+                 break;
+         }
 
         $to_render = array(
             'category_level' => $level,
