@@ -16,10 +16,10 @@ class ScContactFormType extends AbstractType {
 
 
     public function buildForm(FormBuilder $builder, array $options) { 
-        $builder->add('name', 'text', array('label' => 'Nombre'));
-        $builder->add('email', 'email', array('label' => 'E-Mail'));
-        $builder->add('subject', 'text', array('label' => 'Asunto'));
-        $builder->add('description', 'textarea', array('label' => 'Mensaje', 'attr' => array('rows' => '10', 'cols' => 20),));
+        $builder->add('name', 'text', array('label' => 'Nombre', 'attr' => array('class' => 'txt')));
+        $builder->add('email', 'email', array('label' => 'E-Mail', 'attr' => array('class' => 'txt')));
+        $builder->add('subject', 'text', array('label' => 'Asunto', 'attr' => array('class' => 'txt')));
+        $builder->add('description', 'textarea', array('label' => 'Mensaje', 'attr' => array('rows' => '10', 'cols' => 20)));
 
         $entity_id = FALSE;
         if (array_key_exists('data', $options)) {
