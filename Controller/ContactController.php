@@ -118,7 +118,7 @@ class ContactController extends Controller {
             return $this->redirect($referer);
         }
 
-        $this->container->get('session')->setFlash('alert-error', 'Hubo un error al procesar su formulario, intente nuevamente más tarde.');
+        $this->container->get('session')->setFlash('alert-error', 'Hubo un error al procesar su formulario, recuerde que todos los campos son requeridos.');
         return $this->redirect($referer);
     }
 
