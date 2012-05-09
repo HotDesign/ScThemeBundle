@@ -12,8 +12,8 @@
 namespace HotDesign\ScThemeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use HotDesign\SimpleCatalogBundle\Config\ItemTypes;
-use HotDesign\SimpleCatalogBundle\Config\MyConfig;
+use ConfigClasses\ItemTypes;
+use ConfigClasses\MyConfig;
 
 /**
  * ProductController is the main frontend controller to retrieve and display 
